@@ -175,7 +175,7 @@ def f1(a, b, func):
 
 
 def f2(a, b, func):
-    return b - (func(b)*(a - b)) / (func(b) - func(a))
+    return b - (func(b) * (b - a)) / (func(b) - func(a))
 
 
 def f(x: int | float) -> int | float:
