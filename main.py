@@ -100,16 +100,16 @@ class ChordProcessor:
                     case ApproximityType.FIRST:
                         c = round(f1(self.a, self.b, self.function), self.round_count)
                         eq = f"""
-                                f(a) * (b-a)               f({self.a}) * ({self.b}-{self.a})          {self.function(a)} * {self.b} - {self.a}
-                        a - ━━━━━━━━━━━━━━━━━━━━ = {self.a} - ━━━━━━━━━━━━━━━━━━━━ = {self.a} - ━━━━━━━━━━━━━━━━━━━━ = {c}
-                                 f(b) - f(a)               f({self.b}) - f({self.a})\t\t\t\t{self.function(b)} - {self.function(a)}
+                                f(a) * (b-a)                   f({round(self.a, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})    {round(self.function(round(self.a, self.round_count)), self.round_count)} * {round(self.b, self.round_count)} - {round(self.a, self.round_count)}
+                        a - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {c}
+                                 f(b) - f(a)                   f({round(self.b, self.round_count)}) - f({round(self.a, self.round_count)})    {round(self.function(round(self.b, self.round_count)), self.round_count)} - {round(self.function(round(self.a, self.round_count)), self.round_count)}
                         """
                     case ApproximityType.SECOND:
                         c = round(f2(self.a, self.b, self.function), self.round_count)
                         eq = f"""
-                                f(b) * (a-b)              f({self.b}) * ({self.a}-{self.b})          {self.function(b)} * {self.b} - {self.a}
-                        b - ━━━━━━━━━━━━━━━━━━━━ = {self.b} - ━━━━━━━━━━━━━━━━━━━━ = {self.b} - ━━━━━━━━━━━━━━━━━━━━ = {c}
-                                 f(b) - f(a)                f({self.b}) - f({self.a})                f({self.b}) - f({self.a})
+                                f(b) * (b-a)              f({round(self.b, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})        {round(self.function(round(self.b, self.round_count)), self.round_count)} * ({round(self.b, self.round_count)} - {round(self.a, self.round_count)})
+                        b - ━━━━━━━━━━━━━━━━━━━━ = {round(self.b, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {round(self.b, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {c}
+                                 f(b) - f(a)                f({round(self.b, self.round_count)}) - f({round(self.a, self.round_count)})        {round(self.function(round(self.b, self.round_count)), self.round_count)} - {round(self.function(round(self.a, self.round_count)), self.round_count)}
                         """
                     case ApproximityType.MIXED:
                         ch = choice([0, 1])
@@ -117,20 +117,20 @@ class ChordProcessor:
                         c = [round(f1(self.a, self.b, self.function), self.round_count), round(f2(self.a, self.b, self.function), self.round_count)][ch]
 
                         eq = [f"""
-                                f(a) * (b-a)                   f({self.a}) * ({self.b}-{self.a})          {self.function(a)} * {self.b} - {self.a}
-                        a - ━━━━━━━━━━━━━━━━━━━━ = {self.a} - ━━━━━━━━━━━━━━━━━━━━ = {self.a} - ━━━━━━━━━━━━━━━━━━━━ = {c}
-                                 f(b) - f(a)                   f({self.b}) - f({self.a})             {self.function(b)} - {self.function(a)}
+                                f(a) * (b-a)                   f({round(self.a, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})          {round(self.function(round(self.a, self.round_count)), self.round_count)} * {round(self.b, self.round_count)} - {round(self.a, self.round_count)}
+                        a - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {c}
+                                 f(b) - f(a)                   f({round(self.b, self.round_count)}) - f({round(self.a, self.round_count)})                  {round(self.function(round(self.b, self.round_count)), self.round_count)} - {round(self.function(round(self.a, self.round_count)), self.round_count)}
                         """, f"""
-                                f(b) * (a-b)              f({self.b}) * ({self.a}-{self.b})          {self.function(b)} * {self.a} - {self.b}
-                        b - ━━━━━━━━━━━━━━━━━━━━ = {self.b} - ━━━━━━━━━━━━━━━━━━━━ = {self.b} - ━━━━━━━━━━━━━━━━━━━━ = {c}
-                                 f(b) - f(a)                f({self.b}) - f({self.a})                f({self.b}) - f({self.a})
-                        """]
+                                f(b) * (b-a)              f({round(self.b, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})          {round(self.function(round(self.b, self.round_count)), self.round_count)} * ({round(self.b, self.round_count)} - {round(self.a, self.round_count)})
+                        b - ━━━━━━━━━━━━━━━━━━━━ = {round(self.b, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {round(self.b, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {c}
+                                 f(b) - f(a)                f({round(self.b, self.round_count)}) - f({round(self.a, self.round_count)})                {round(self.function(round(self.b, self.round_count)), self.round_count)} - {round(self.function(round(self.a, self.round_count)), self.round_count)}
+                        """][ch]
                     case _:
                         c = round(f1(self.a, self.b, self.function), self.round_count)
                         eq = f"""
-                                f(a) * (b-a)                   f({self.a}) * ({self.b}-{self.a})          {self.function(a)} * {self.b} - {self.a}
-                        a - ━━━━━━━━━━━━━━━━━━━━ = {self.a} - ━━━━━━━━━━━━━━━━━━━━ = {self.a} - ━━━━━━━━━━━━━━━━━━━━ = {c}
-                                 f(b) - f(a)                   f({self.b}) - f({self.a})                  {self.function(b)} - {self.function(a)}
+                                f(a) * (b-a)                   f({round(self.a, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})          {self.function(round(self.a, self.round_count))} * {round(self.b, self.round_count)} - {round(self.a, self.round_count)}
+                        a - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {c}
+                                 f(b) - f(a)                   f({round(self.b, self.round_count)}) - f({round(self.a, self.round_count)})                  {self.function(round(self.b, self.round_count))} - {self.function(round(self.a, self.round_count))}
                         """
 
                 old_a, old_b = float(self.a), float(self.b)
