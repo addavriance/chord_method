@@ -12,7 +12,7 @@ class ApproximityType:
 class ChordProcessor:
     def __init__(self, func: callable, epsilon: float, a: Optional[float] = None, b: Optional[float] = None,
                  interval_find_step: float = 1, interval_max_iterations: int = 100000,
-                 interval_start_iterations: Optional[int] = None, aprxm: int = None, round_count: int = 20):
+                 interval_start_iterations: Optional[int] = None, aprxm: int = None, round_count: int = 20, interval_round_count: int = 2):
 
         """
         :param func: The function whose root needs to be found
@@ -43,6 +43,7 @@ class ChordProcessor:
 
         self.approximation_method: Optional[ApproximityType] = aprxm
         self.round_count = round_count
+        self.interval_round_count = interval_round_count
 
     @staticmethod
     def _get_signs(integers: list[int | float]) -> str:
@@ -56,8 +57,8 @@ class ChordProcessor:
 
         while self.start_iters < self.max_iters:
             if self.function(self.start_iters) * self.function(self.start_iters + self.step) < 0:
-                a = self.start_iters
-                b = self.start_iters + self.step
+                a = round(self.start_iters, self.interval_round_count)
+                b = round(self.start_iters + self.step, self.interval_round_count)
                 intervals.append((a, b))
             self.start_iters += self.step
         self.intervals = intervals
