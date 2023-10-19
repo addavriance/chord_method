@@ -86,7 +86,6 @@ class ChordProcessor:
             self.a = a
             self.b = b
 
-
             self.working = True
 
             equation.append(f"Первоначально найденный интервал смены знаков: [{self.a}, {self.b}].\n")
@@ -186,13 +185,9 @@ def f(x: int | float) -> int | float:
 # example usage
 
 
-epsilon = 10 ** -3
+e = 10 ** -3
 
-processor = ChordProcessor(f, epsilon=epsilon, a=3.3, b=3.4, round_count=4)
+processor = ChordProcessor(f, epsilon=e, interval_find_step=0.1, aprxm=ApproximityType.MIXED, round_count=4)
 
 processor.find_solutions()
 processor.print_last_equations()
-
-
-
-
