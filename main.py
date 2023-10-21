@@ -100,9 +100,9 @@ class ChordProcessor:
                     case ApproximityType.FIRST:
                         c = round(f1(self.a, self.b, self.function), self.round_count)
                         eq = f"""
-                                f(a) * (b-a)                   f({round(self.a, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})    {round(self.function(round(self.a, self.round_count)), self.round_count)} * {round(self.b, self.round_count)} - {round(self.a, self.round_count)}
+                                f(a) * (b-a)                   f({round(self.a, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})          {round(self.function(round(self.a, self.round_count)), self.round_count)} * ({round(self.b, self.round_count)} - {round(self.a, self.round_count)})
                         a - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {c}
-                                 f(b) - f(a)                   f({round(self.b, self.round_count)}) - f({round(self.a, self.round_count)})    {round(self.function(round(self.b, self.round_count)), self.round_count)} - {round(self.function(round(self.a, self.round_count)), self.round_count)}
+                                 f(b) - f(a)                   f({round(self.b, self.round_count)}) - f({round(self.a, self.round_count)})                  {round(self.function(round(self.b, self.round_count)), self.round_count)} - {round(self.function(round(self.a, self.round_count)), self.round_count)}
                         """
                     case ApproximityType.SECOND:
                         c = round(f2(self.a, self.b, self.function), self.round_count)
@@ -117,7 +117,7 @@ class ChordProcessor:
                         c = [round(f1(self.a, self.b, self.function), self.round_count), round(f2(self.a, self.b, self.function), self.round_count)][ch]
 
                         eq = [f"""
-                                f(a) * (b-a)                   f({round(self.a, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})          {round(self.function(round(self.a, self.round_count)), self.round_count)} * {round(self.b, self.round_count)} - {round(self.a, self.round_count)}
+                                f(a) * (b-a)                   f({round(self.a, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})          {round(self.function(round(self.a, self.round_count)), self.round_count)} * ({round(self.b, self.round_count)} - {round(self.a, self.round_count)})
                         a - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {c}
                                  f(b) - f(a)                   f({round(self.b, self.round_count)}) - f({round(self.a, self.round_count)})                  {round(self.function(round(self.b, self.round_count)), self.round_count)} - {round(self.function(round(self.a, self.round_count)), self.round_count)}
                         """, f"""
@@ -128,14 +128,14 @@ class ChordProcessor:
                     case _:
                         c = round(f1(self.a, self.b, self.function), self.round_count)
                         eq = f"""
-                                f(a) * (b-a)                   f({round(self.a, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})          {self.function(round(self.a, self.round_count))} * {round(self.b, self.round_count)} - {round(self.a, self.round_count)}
+                                f(a) * (b-a)                   f({round(self.a, self.round_count)}) * ({round(self.b, self.round_count)}-{round(self.a, self.round_count)})          {round(self.function(round(self.a, self.round_count)), self.round_count)} * ({round(self.b, self.round_count)} - {round(self.a, self.round_count)})
                         a - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {round(self.a, self.round_count)} - ━━━━━━━━━━━━━━━━━━━━ = {c}
-                                 f(b) - f(a)                   f({round(self.b, self.round_count)}) - f({round(self.a, self.round_count)})                  {self.function(round(self.b, self.round_count))} - {self.function(round(self.a, self.round_count))}
+                                 f(b) - f(a)                   f({round(self.b, self.round_count)}) - f({round(self.a, self.round_count)})                  {round(self.function(round(self.b, self.round_count)), self.round_count)} - {round(self.function(round(self.a, self.round_count)), self.round_count)}
                         """
 
                 old_a, old_b = float(self.a), float(self.b)
 
-                if self.function(c) == 0.0:
+                if round(self.function(c), 15) == 0.0:
                     equation.append(f"Ответ x = {c}. Так как f(c) = 0. (Найден точный корень)")
 
                     self.solutions.append(c)
@@ -150,8 +150,8 @@ class ChordProcessor:
                     self.a = c
 
                 if self.working:
-                    eq += f"\n\t\t{self._get_signs([f(old_a), f(c)])} {statuses[1][0]}{[old_a, c]}{statuses[1][1]} " \
-                          f"| {self._get_signs([f(c), f(old_b)])} {statuses[0][0]}{[c, old_b]}{statuses[0][1]}\n"
+                    eq += f"\n\t\t{self._get_signs([self.function(old_a), self.function(c)])} {statuses[1][0]}{[old_a, c]}{statuses[1][1]} " \
+                          f"| {self._get_signs([self.function(c), self.function(old_b)])} {statuses[0][0]}{[c, old_b]}{statuses[0][1]}\n"
                     equation.append(eq)
 
             solution = (self.a + self.b) / 2
