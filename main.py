@@ -176,18 +176,3 @@ def f1(a, b, func):
 
 def f2(a, b, func):
     return b - (func(b) * (b - a)) / (func(b) - func(a))
-
-
-def f(x: int | float) -> int | float:
-    return x**2-3*x-1  # replace with your function
-
-
-# example usage
-
-
-e = 10 ** -3
-
-processor = ChordProcessor(f, epsilon=e, interval_find_step=0.1, aprxm=ApproximityType.MIXED, round_count=4)
-
-processor.find_solutions()
-processor.print_last_equations()
